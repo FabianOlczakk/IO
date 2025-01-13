@@ -91,11 +91,16 @@ public class Seans {
 
 	@Override
 	public String toString() {
-		return "Seans{" +
-				"id=" + id +
-				", data='" + data + '\'' +
-				", godzina='" + godzina + '\'' +
-				", film=" + (film != null ? film.getTytul() : "brak") +
-				'}';
+		// Ładniejszy tekst, np. "Avatar (2025-01-14 18:00) - 2D"
+		if (film != null) {
+			return String.format("%s (%s %s) - %s",
+					film.getTytul(),
+					data,
+					godzina,
+					rodzaj
+			);
+		} else {
+			return "Seans: " + id;
+		}
 	}
 }

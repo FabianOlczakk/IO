@@ -13,7 +13,6 @@ public class Bilet {
 	private String _miejsca;
 
 	public Bilet() {
-		throw new UnsupportedOperationException();
 	}
 
 	public int getId() {

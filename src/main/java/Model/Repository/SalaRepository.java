@@ -1,30 +1,78 @@
 package Model.Repository;
 
-
 import Model.SalaKinowa;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SalaRepository {
-	public RepositoryFacade _unnamed_RepositoryFacade_;
+	private static final String FILE_PATH = "sale.json";
+	private static List<SalaKinowa> sale;
 
-	public void save(Object aSala_sala) {
-		throw new UnsupportedOperationException();
+	static {
+		// Blok statyczny – ładowanie sal z pliku JSON
+		try (FileReader reader = new FileReader(FILE_PATH)) {
+			Gson gson = new Gson();
+			Type listType = new TypeToken<List<SalaKinowa>>() {}.getType();
+			sale = gson.fromJson(reader, listType);
+			System.out.println("Załadowane sale: " + sale);
+		} catch (IOException e) {
+			e.printStackTrace();
+			sale = new ArrayList<>();
+		}
 	}
 
-	public SalaKinowa findById(Object aInt_id) {
-		throw new UnsupportedOperationException();
+	/**
+	 * Zapis sal do pliku JSON.
+	 */
+	public static void save() {
+		try (FileWriter writer = new FileWriter(FILE_PATH)) {
+			Gson gson = new Gson();
+			gson.toJson(sale, writer);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public List<SalaKinowa> findAll() {
-		throw new UnsupportedOperationException();
+	/**
+	 * Pobiera wszystkie sale.
+	 */
+	public static List<SalaKinowa> findAll() {
+		return sale;
 	}
 
-	public void update(Object aSala_sala) {
-		throw new UnsupportedOperationException();
+	/**
+	 * Znajduje salę po numerze.
+	 */
+	public static SalaKinowa findByNumer(int numerSali) {
+		return sale.stream()
+				.filter(s -> s.getNumer() == numerSali)
+				.findFirst()
+				.orElse(null);
 	}
 
-	public void delete(Object aInt_id) {
-		throw new UnsupportedOperationException();
+	/**
+	 * Dodaje nową salę (np. w trakcie konfiguracji systemu).
+	 */
+	public static void addSala(SalaKinowa sala) {
+		sale.add(sala);
+		save();
+	}
+
+	/**
+	 * Aktualizuje istniejącą salę (np. zmiana miejsc).
+	 * W tym przykładowym kodzie wystarczy, że wywołamy save(),
+	 * bo obiekt w "sale" jest już zaktualizowany w pamięci.
+	 */
+	public static void updateSala(SalaKinowa sala) {
+		// Nic nie robimy (obiekt jest w liście),
+		// wystarczy zapisać całą listę do pliku:
+		save();
 	}
 }
