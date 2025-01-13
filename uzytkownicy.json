@@ -1,0 +1,17 @@
+[
+  {
+    "login": "admin",
+    "haslo": "admin",
+    "stopien": 2
+  },
+  {
+    "login": "kasjer",
+    "haslo": "kasjer123",
+    "stopien": 1
+  },
+  {
+    "login": "manager",
+    "haslo": "manager2023",
+    "stopien": 2
+  }
+]

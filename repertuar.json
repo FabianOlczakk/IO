@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "film": {
+      "id": 1,
+      "tytul": "Matrix",
+      "obsada": "Keanu Reeves, Carrie-Anne Moss",
+      "czasTrwania": 136,
+      "opis": "Sci-fi thriller o wirtualnej rzeczywistości."
+    },
+    "data": "2025-01-13",
+    "godzina": "15:30:00",
+    "rodzaj": "3D",
+    "cenaNormalna": 30.0,
+    "sciezkaDzw": "Dolby Atmos",
+    "napisy": "Polskie",
+    "salaKinowa": {
+      "numer": 1,
+      "liczbaMiejsc": 100
+    }
+  },
+  {
+    "id": 2,
+    "film": {
+      "id": 2,
+      "tytul": "Incepcja",
+      "obsada": "Leonardo DiCaprio, Joseph Gordon-Levitt",
+      "czasTrwania": 148,
+      "opis": "Historia o snach w snach."
+    },
+    "data": "2025-01-13",
+    "godzina": "18:00:00",
+    "rodzaj": "2D",
+    "cenaNormalna": 25.0,
+    "sciezkaDzw": "Dolby Digital",
+    "napisy": "Polskie",
+    "salaKinowa": {
+      "numer": 2,
+      "liczbaMiejsc": 120
+    }
+  },
+  {
+    "id": 3,
+    "film": {
+      "id": 3,
+      "tytul": "Avatar",
+      "obsada": "Sam Worthington, Zoe Saldana",
+      "czasTrwania": 162,
+      "opis": "Historia o odkrywaniu Pandory."
+    },
+    "data": "2025-01-14",
+    "godzina": "14:00:00",
+    "rodzaj": "3D",
+    "cenaNormalna": 35.0,
+    "sciezkaDzw": "Dolby Atmos",
+    "napisy": "Angielskie",
+    "salaKinowa": {
+      "numer": 1,
+      "liczbaMiejsc": 100
+    }
+  },
+  {
+    "id": 4,
+    "film": {
+      "id": 4,
+      "tytul": "Joker",
+      "obsada": "Joaquin Phoenix",
+      "czasTrwania": 122,
+      "opis": "Psychologiczny dramat o Jokerze."
+    },
+    "data": "2025-01-14",
+    "godzina": "17:30:00",
+    "rodzaj": "2D",
+    "cenaNormalna": 28.0,
+    "sciezkaDzw": "Stereo",
+    "napisy": "Polskie",
+    "salaKinowa": {
+      "numer": 3,
+      "liczbaMiejsc": 80
+    }
+  },
+  {
+    "id": 5,
+    "film": {
+      "id": 5,
+      "tytul": "Titanic",
+      "obsada": "Leonardo DiCaprio, Kate Winslet",
+      "czasTrwania": 195,
+      "opis": "Romantyczna historia na tle tragedii."
+    },
+    "data": "2025-01-15",
+    "godzina": "16:00:00",
+    "rodzaj": "2D",
+    "cenaNormalna": 20.0,
+    "sciezkaDzw": "Dolby Digital",
+    "napisy": "Polskie",
+    "salaKinowa": {
+      "numer": 4,
+      "liczbaMiejsc": 200
+    }
+  }
+]
