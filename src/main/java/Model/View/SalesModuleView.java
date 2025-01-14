@@ -3,17 +3,14 @@ package Model.View;
 import Model.Bilet;
 import Model.Repository.MenuRepository;
 import Model.Repository.RepertuarRepository;
-import Model.Repository.SalaRepository;
 import Model.SalaKinowa;
 import Model.Service.TransakcjaService;
 import Model.Produkt;
 import Model.Model.Seans;
-import Model.View.MainView;
 import org.jdesktop.swingx.JXDatePicker;
 
 import javax.swing.*;
 import java.awt.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -169,6 +166,7 @@ public class SalesModuleView {
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(titleLabel, BorderLayout.NORTH);
 
+        // Lista transakcji (pozycje) w formie tekstowej
         JList<String> transactionList = new JList<>(transactionListModel);
         JScrollPane scrollPane = new JScrollPane(transactionList);
         panel.add(scrollPane, BorderLayout.CENTER);
@@ -176,18 +174,60 @@ public class SalesModuleView {
         // --- Główne przyciski ---
         JButton clearButton = new JButton("Wyczyść");
         JButton finalizeButton = new JButton("Finalizuj");
+        JButton znizkaButton = new JButton("Dodaj zniżkę");
 
-        // Obsługa przycisku „Wyczyść”
+        // Obsługa przycisku "Wyczyść"
         clearButton.addActionListener(e -> {
             transakcjaService.wyczyscTransakcje();
             transactionListModel.clear();
             updateTotalPrice();
         });
 
-        // Obsługa przycisku „Finalizuj”
-        finalizeButton.addActionListener(e -> {
-            // Tutaj: zablokowanie miejsc w pliku repertuar.json
+        // Obsługa przycisku "Dodaj zniżkę"
+        znizkaButton.addActionListener(e -> {
+            String input = JOptionPane.showInputDialog(
+                    null,
+                    "Podaj procentową wartość zniżki (np. 10 = 10%)",
+                    "Zniżka",
+                    JOptionPane.QUESTION_MESSAGE
+            );
 
+            if (input == null || input.trim().isEmpty()) {
+                // Użytkownik anulował lub nic nie wpisał
+                return;
+            }
+
+            try {
+                double discountPercent = Double.parseDouble(input.trim());
+                if (discountPercent < 0 || discountPercent > 100) {
+                    JOptionPane.showMessageDialog(null,
+                            "Wartość zniżki musi być w zakresie 0–100.",
+                            "Błąd",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                float discountValue = (float) (transakcjaService.getAktualnaTransakcja().getKwotaTransakcji() * (discountPercent / 100.0));
+                transakcjaService.dodajZnizke(discountValue);
+
+                // Odswież kwotę
+                updateTotalPrice();
+
+                JOptionPane.showMessageDialog(null,
+                        "Zniżka " + discountPercent + "% została zastosowana.",
+                        "Info",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null,
+                        "Nieprawidłowa wartość zniżki!",
+                        "Błąd",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // Obsługa przycisku "Finalizuj"
+        finalizeButton.addActionListener(e -> {
             // 1) Pobierz listę biletów z aktualnej transakcji
             List<Bilet> bilety = transakcjaService.getAktualnaTransakcja().getBilety();
             // 2) Dla każdego biletu oznacz miejsca w tablicy seansu
@@ -203,7 +243,7 @@ public class SalesModuleView {
                 }
             }
 
-            // 3) Zapisz cały repertuar do pliku (miejsce zablokowane na zawsze)
+            // 3) Zapisz cały repertuar do pliku (blokujemy te miejsca na stałe)
             RepertuarRepository.save();
 
             // 4) Czyścimy transakcję i listę
@@ -211,20 +251,24 @@ public class SalesModuleView {
             transactionListModel.clear();
             updateTotalPrice();
 
-            JOptionPane.showMessageDialog(null, "Transakcja zakończona. Miejsca zablokowane w repertuarze.");
+            JOptionPane.showMessageDialog(null,
+                    "Transakcja zakończona. Miejsca zablokowane w repertuarze.",
+                    "Info",
+                    JOptionPane.INFORMATION_MESSAGE);
         });
 
         // Panel na przyciski
-        JPanel buttonsPanel = new JPanel(new GridLayout(1, 2));
+        // UWAGA: GridLayout(1, 3) – bo mamy 3 przyciski
+        JPanel buttonsPanel = new JPanel(new GridLayout(1, 3));
         buttonsPanel.add(clearButton);
+        buttonsPanel.add(znizkaButton);
         buttonsPanel.add(finalizeButton);
 
-        // Panel na dole, który będzie zawierał i przyciski, i sumę
+        // Panel na dole, który zawiera i przyciski, i sumę
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.add(buttonsPanel, BorderLayout.CENTER);
         bottomPanel.add(totalPriceLabel, BorderLayout.SOUTH);
 
-        // Dodajemy bottomPanel do głównego panelu w sekcji SOUTH
         panel.add(bottomPanel, BorderLayout.SOUTH);
 
         return panel;

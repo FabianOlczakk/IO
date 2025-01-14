@@ -25,4 +25,8 @@ public class TransakcjaService {
 		// Tutaj można zaimplementować logikę zapisu transakcji do repozytorium
 		aktualnaTransakcja.clear();
 	}
+
+	public void dodajZnizke(float wartosc) {
+		aktualnaTransakcja.setKwotaTransakcji(aktualnaTransakcja.getKwotaTransakcji() - wartosc);
+	}
 }

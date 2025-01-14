@@ -45,6 +45,10 @@ public class Transakcja {
 		return kwotaTransakcji;
 	}
 
+	public void setKwotaTransakcji(float kwotaTransakcji) {
+		this.kwotaTransakcji = kwotaTransakcji;
+	}
+
 	public void clear() {
 		bilety.clear();
 		artykuly.clear();
